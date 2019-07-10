@@ -1,10 +1,12 @@
 package edu.vit.eddv2;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.io.IOException;
+import java.util.Set;
+import java.util.UUID;
 
 
 public class RechargeFragment extends Fragment implements View.OnClickListener {
@@ -27,6 +32,8 @@ public class RechargeFragment extends Fragment implements View.OnClickListener {
     Button btn_custom;
     EditText units_custom;
     BroadcastReceiver receiver = null;
+    String address = null , name=null;
+    String usernumber= "9890919400";
 
 
     @Override
@@ -46,11 +53,8 @@ public class RechargeFragment extends Fragment implements View.OnClickListener {
         btn_custom.setOnClickListener(this);
 
 
-
-
         return v;
     }
-
 
 
     public void onClick(View v) {
@@ -68,9 +72,12 @@ public class RechargeFragment extends Fragment implements View.OnClickListener {
                     break;
             }
 
+            String sysunits="#"+units+"*";
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage("9225526650",null,units,null,null);
+           // smsManager.sendTextMessage(spnumber,null,sysunits,null,null);
+            smsManager.sendTextMessage(usernumber,null,units,null,null);
             Toast.makeText(getContext(),"Message Sent", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Recharge done", Toast.LENGTH_SHORT).show();
         }
         else {
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.SEND_SMS},SEND_SMS_PERMISSION_REQUEST_CODE);
